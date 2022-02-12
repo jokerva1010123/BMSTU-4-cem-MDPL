@@ -1,0 +1,89 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/17/13 12:10:3
+                                                             Page     1-1
+
+
+       1				;Разделить работу программы между двумя
+					 модулями. В модуле lab04_41.asm
+       2				;оставить все сегменты и часть кода для
+					 вывода значения переменной А.
+       3				;Во втором модуле lab04_42.asm вывод зн
+					ачения переменной В оформить в
+       4				;виде ближней процедуры, вызываемой из 
+					модуля  командой call. При
+       5				;отладке программы составить и ис-польз
+					овать командный файл Z.BAT для
+       6				;последовательного ассемблирования,  ко
+					мпо-новки и выполнения программы
+       7				;с завершением выполнения после
+       8				;1-го  и  2-го шага при ненулевом коде 
+					завершения. Проверить его работу,
+       9				;вводя в программу ошибки, которые обна
+					руживает MASM и LINK.
+      10				;Ознакомиться  по  HELPR.EXE  с правила
+					ми передачи программой кода
+      11				;завершения и добавить в Z.BAT выдачу с
+					ообщения «КОД ЗАВЕРШЕНИЯ НЕ 0»
+      12				;при ненулевом коде завершения программ
+					ы.
+      13				
+      14				
+      15 0000				DSEGA	SEGMENT
+      16 0000  41				A	DB 'A'
+      17 0001				DSEGA	ENDS
+      18				
+      19 0000				CSEG	SEGMENT
+      20					ASSUME CS:CSEG
+      21					PUBLIC B
+      22 0000				START:
+      23 0000  B8 ---- R			MOV AX,DSEGA
+      24 0003  8E D8				MOV DS,AX
+      25 0005  B8 ---- R			MOV AX,DSEGB
+      26 0008  8E C0				MOV ES,AX
+      27					
+      28 000A  8A 16 0000 R			MOV	DL,DS:A		;вывод 
+					символа
+      29 000E  B4 02				MOV	AH,2
+      30 0010  CD 21				INT	21h
+      31					
+      32 0012				CSEG	ENDS
+      33				
+      34 0000				DSEGB	SEGMENT
+      35 0000  42				B	DB 'B'
+      36 0001				DSEGB	ENDS
+      37				
+      38					END START
+Microsoft (R) Macro Assembler Version 5.10                  10/17/13 12:10:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0012	PARA	NONE	
+DSEGA  . . . . . . . . . . . . .  	0001	PARA	NONE	
+DSEGB  . . . . . . . . . . . . .  	0001	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGA
+
+B  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGB	Global
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l4_41		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     38 Source  Lines
+     38 Total   Lines
+     15 Symbols
+
+  47394 + 461913 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

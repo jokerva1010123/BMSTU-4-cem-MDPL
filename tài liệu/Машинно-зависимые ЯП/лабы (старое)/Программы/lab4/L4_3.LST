@@ -1,0 +1,51 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/10/13 13:12:5
+l4_3.exe                                                    Page     1-1
+
+
+       1					.LIST
+       2						TITLE	l4_3.exe
+       3						SUBTTL	DataSeg
+       4 0000  B8 ---- R			MOV AX,DSEGA
+       5 0003  8E D8				MOV DS,AX
+       6 0005  B8 ---- R			MOV AX,DSEGB
+       7 0008  8E C0				MOV ES,AX
+       8					.LIST
+       9						SUBTTL	Exit
+      10 0023  B0 00				MOV	AL,0		;выход
+      11 0025  B4 4C				MOV	AH,4Ch
+      12 0027  CD 21				INT	21h
+Microsoft (R) Macro Assembler Version 5.10                  10/10/13 13:12:5
+l4_3.exe                                                    Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0029	PARA	NONE	
+DSEGA  . . . . . . . . . . . . .  	0001	PARA	NONE	
+DSEGB  . . . . . . . . . . . . .  	0001	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGA
+
+B  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGB
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l4_3		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     54 Source  Lines
+     54 Total   Lines
+     15 Symbols
+
+  47410 + 461897 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

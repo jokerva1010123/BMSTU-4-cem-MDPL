@@ -1,0 +1,106 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Page     1-1
+
+
+       1				;‘0’ – вывод пунктов меню с номерами 0.
+					.8
+       2				
+       3				PUBLIC	PR_Out10S
+       4				EXTRN	PR_NewLine:NEAR
+       5				EXTRN	PR_Out10:NEAR
+       6				
+       7 0000				Data	SEGMENT	PUBLIC
+       8 0000  0000				XoutS	DW (?)
+       9 0002				Data	ENDS
+      10				
+      11				
+      12				
+      13				
+      14 0000				Code	SEGMENT	PUBLIC
+      15					ASSUME CS:Code
+      16				;--------------------------------------
+					---------------------------------------
+					---------
+      17				;Печатает переменную, переданную через 
+					стек, как десятичное число со знаком (1
+					5 как 15, -15 как -15)
+      18				;--------------------------------------
+					---------------------------------------
+					---------
+      19 0000				PR_Out10S	PROC	NEAR
+      20				
+      21 0000  55				PUSH	BP		;переда
+					ем параметр
+      22 0001  8B EC				MOV		BP,SP
+      23 0003  50				PUSH	AX
+      24					
+      25 0004  8B 46 04				MOV		AX,[BP+4]
+						;получаем в AX число, которое н
+					адо распечатать
+      26 0007  3D 0000				CMP		AX,0
+      27 000A  7D 0A				JGE		LO10S_SkipMinus
+						;если число отрицательное, то н
+					апишем - и передадим "перевернутое" зна
+					чение в печать
+      28 000C  50					PUSH	AX
+      29 000D  B4 02					MOV		AH,2h
+      30 000F  B2 2D					MOV		DL,'-'
+      31 0011  CD 21					INT		21h
+      32 0013  58					POP		AX
+      33 0014  F7 D8					NEG		AX
+      34 0016					LO10S_SkipMinus:
+      35 0016  50				PUSH	AX
+      36 0017  E8 0000 E			CALL	PR_Out10
+      37 001A  83 C4 02				ADD		SP,2	;чистим
+					 стек
+      38					
+      39 001D  58				POP		AX
+      40 001E  5D				POP		BP
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Page     1-2
+
+
+      41 001F  C3				RET
+      42 0020				PR_Out10S	ENDP
+      43				;--------------------------------------
+					---------------------------------------
+					---------
+      44 0020				Code	ENDS
+      45				
+      46				END
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0020	PARA	PUBLIC	
+DATA . . . . . . . . . . . . . .  	0002	PARA	PUBLIC	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+LO10S_SKIPMINUS  . . . . . . . .  	L NEAR	0016	CODE
+
+PR_NEWLINE . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT10 . . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT10S  . . . . . . . . . . .  	N PROC	0000	CODE	Global	Length = 0020
+
+XOUTS  . . . . . . . . . . . . .  	L WORD	0000	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  _out10s		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     46 Source  Lines
+     46 Total   Lines
+     16 Symbols
+
+  47406 + 461901 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

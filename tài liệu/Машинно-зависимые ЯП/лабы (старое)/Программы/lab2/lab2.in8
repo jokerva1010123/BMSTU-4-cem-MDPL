@@ -1,0 +1,9 @@
+bc *
+bp M1 "R ; ?K ; e"
+bp M2 "R ; ?K ; e"
+bp M3 "R ; ?K ; e"
+bp M4 "R ; ?K ; e"
+bp M5 "R ; ?K ; e"
+bp M6 "R ; ?K ; e"
+t> lab2.ou8
+e

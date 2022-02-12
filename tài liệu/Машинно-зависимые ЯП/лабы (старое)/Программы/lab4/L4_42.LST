@@ -1,0 +1,87 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/17/13 12:10:4
+                                                             Page     1-1
+
+
+       1				;Разделить работу программы между двумя
+					 модулями. В модуле lab04_41.asm
+       2				;оставить все сегменты и часть кода для
+					 вывода значения переменной А.
+       3				;Во втором модуле lab04_42.asm вывод зн
+					ачения переменной В оформить в
+       4				;виде ближней процедуры, вызываемой из 
+					модуля  командой call. При
+       5				;отладке программы составить и ис-польз
+					овать командный файл Z.BAT для
+       6				;последовательного ассемблирования,  ко
+					мпо-новки и выполнения программы
+       7				;с завершением выполнения после
+       8				;1-го  и  2-го шага при ненулевом коде 
+					завершения. Проверить его работу,
+       9				;вводя в программу ошибки, которые обна
+					руживает MASM и LINK.
+      10				;Ознакомиться  по  HELPR.EXE  с правила
+					ми передачи программой кода
+      11				;завершения и добавить в Z.BAT выдачу с
+					ообщения «КОД ЗАВЕРШЕНИЯ НЕ 0»
+      12				;при ненулевом коде завершения программ
+					ы.
+      13				
+      14				
+      15 0000				CSEG	SEGMENT
+      16					ASSUME CS:CSEG
+      17					EXTRN B:BYTE
+      18					
+      19 0000  E8 000D R			CALL PrintB
+      20					
+      21 0003  B4 07				MOV	AH,7		;ввод с
+					имвола
+      22 0005  CD 21				INT	21h
+      23					
+      24 0007  B0 00				MOV	AL,0		;выход
+      25 0009  B4 4C				MOV	AH,4Ch
+      26 000B  CD 21				INT	21h
+      27					
+      28				
+      29 000D					PrintB PROC NEAR	
+						
+      30 000D  26: 8A 16 0000 E				MOV	DL,ES:B	
+						;вывод символа
+      31 0012  B4 02					MOV	AH,2
+      32 0014  CD 21					INT	21h
+      33						
+      34 0016  C3					RET
+      35 0017					PrintB ENDP
+      36 0017				CSEG	ENDS
+      37				
+      38					END 
+Microsoft (R) Macro Assembler Version 5.10                  10/17/13 12:10:4
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0017	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+B  . . . . . . . . . . . . . . .  	V BYTE	0000	CSEG	External
+
+PRINTB . . . . . . . . . . . . .  	N PROC	000D	CSEG	Length = 000A
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l4_42		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     38 Source  Lines
+     38 Total   Lines
+     12 Symbols
+
+  47438 + 461869 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

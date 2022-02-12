@@ -1,0 +1,104 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 15:07:25
+                                                             Page     1-1
+
+
+       1				;Составить программу, содержащую в след
+					ующем порядке описания сегментов:
+       2				;DSEGA сегмент с переменной A, имеющей 
+					значение 'A', CSEG - сегмент кода, 
+       3				;DSEGB - сегмент с переменной B, имеюще
+					й значение 'B'. Программа должна 
+       4				;выводить на экран значение переменной 
+					A, ждать нажатия клавиши и выводить 
+       5				;значение переменной B.  Вывод выполнит
+					ь с помощью функции DOS#2. Сохранить 
+       6				;отлаженную программу в файле lab04_1.a
+					sm.
+       7				;Найти с помощью отладчика параграфы на
+					чальной загрузки сегментов программы 
+       8				;и длины сегментов и сравнить с соответ
+					ствующими данными из файла листинга 
+       9				;плана памяти программы. Дополнить файл
+					 листинга плана этими данными и 
+      10				;сохранить для отчета в файле lab04_1.t
+					xt.
+      11				
+      12 0000				DSEGA	SEGMENT
+      13 0000  41				A	DB 'A'
+      14 0001				DSEGA	ENDS
+      15				
+      16 0000				CSEG	SEGMENT
+      17					ASSUME CS:CSEG
+      18 0000				START:
+      19 0000  B8 ---- R			MOV AX,DSEGA
+      20 0003  8E D8				MOV DS,AX
+      21 0005  B8 ---- R			MOV AX,DSEGB
+      22 0008  8E C0				MOV ES,AX
+      23					
+      24 000A  8A 16 0000 R			MOV	DL,DS:A		;вывод 
+					символа
+      25 000E  B4 02				MOV	AH,2
+      26 0010  CD 21				INT	21h
+      27					
+      28 0012  B4 07				MOV	AH,7		;ввод с
+					имвола
+      29 0014  CD 21				INT	21h
+      30					
+      31 0016  26: 8A 16 0000 R			MOV	DL,ES:B		;вывод 
+					символа
+      32 001B  B4 02				MOV	AH,2
+      33 001D  CD 21				INT	21h
+      34					
+      35 001F  B4 07				MOV	AH,7		;ввод с
+					имвола
+      36 0021  CD 21				INT	21h
+      37					
+      38 0023  B0 00				MOV	AL,0		;выход
+      39 0025  B4 4C				MOV	AH,4Ch
+      40 0027  CD 21				INT	21h
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 15:07:25
+                                                             Page     1-2
+
+
+      41 0029				CSEG	ENDS
+      42				
+      43 0000				DSEGB	SEGMENT
+      44 0000  42				B	DB 'B'
+      45 0001				DSEGB	ENDS
+      46				
+      47					END START
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 15:07:25
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0029	PARA	NONE	
+DSEGA  . . . . . . . . . . . . .  	0001	PARA	NONE	
+DSEGB  . . . . . . . . . . . . .  	0001	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGA
+
+B  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEGB
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l4_1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     47 Source  Lines
+     47 Total   Lines
+     15 Symbols
+
+  47410 + 461897 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

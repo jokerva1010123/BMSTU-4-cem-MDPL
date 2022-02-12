@@ -1,0 +1,282 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:06:3
+                                                             Page     1-1
+
+
+       1				;—оставить программу, выполн€ющую в цик
+					ле, работы, соответствующие вводимому с
+					имволу:
+       2				;С0Т Ц вывод пунктов меню с номерами 0.
+					.8
+       3				;С1Т Ц ввод (в основной программе) с кл
+					авиатуры дес€тичного целого, возможно, 
+					со знаком минус, преобразование  (в про
+					цедуре-функции) во внутреннее представл
+					ение 
+       4				;и размещение (в основной программе) в 
+					2-байтовой €чейке X.
+       5				;С2Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме двоичного це
+					лого без знака и без лидирующих нулей (
+					использовать команды сдвига).
+       6				;С3Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме двоичного це
+					лого со знаком и без лидирующих нулей (
+					использовать команду NEG и процедуру 
+       7				;предыдущего пункта).
+       8				;С4Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме дес€тичного 
+					целого без знака (использовать команду 
+					делени€).
+       9				;С5Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме дес€тичного 
+					целого со знаком (использовать команду 
+					NEG и процедуру предыдущего пункта).
+      10				;С6Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме шестнадцатер
+					ичного целого без знака (использовать к
+					оманды циклического сдвига и конъюнкции
+					).
+      11				;С7Т Ц вывод на экран с новой строки зн
+					ачени€ из €чейки ’ в форме шестнадцатер
+					ичного целого со знаком (использовать к
+					оманду NEG и процедуру предыдущего пунк
+					та).
+      12				;С8Т Ц завершение работы программы.
+      13				;ƒл€ перехода на новую строку экрана со
+					ставить и использовать процедуру.
+      14				;ƒЋя ¬џ«ќ¬ј ¬—≈’ ѕ–ќ÷≈ƒ”– 2..7 ¬ ќ—Ќќ¬Ќ
+					ќ… ѕ–ќ√–јћћ≈,  »—ѕќЋ№«ќ¬ј“№ ќƒЌ”  ќћјЌƒ
+					” CALL »  ќ—¬≈ЌЌ”ё јƒ–≈—ј÷»ё ѕќ ѕјћя“».
+      15				;ƒЋя ¬—≈’ ѕ–ќ÷≈ƒ”– »—ѕќЋ№«ќ¬ј“№ —ќ√ЋјЎ≈
+					Ќ»я TURBO C ѕќ —¬я«џ¬јЌ»ё ѕќƒѕ–ќ√–јћћ.
+      16				
+      17				
+      18				EXTRN	PR_PrintMenu:NEAR
+      19				EXTRN	PR_InputInt:NEAR
+      20				EXTRN	PR_Out2:NEAR
+      21				EXTRN	PR_Out2S:NEAR
+      22				EXTRN	PR_Out10:NEAR
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:06:3
+                                                             Page     1-2
+
+
+      23				EXTRN	PR_Out10S:NEAR
+      24				EXTRN	PR_Out16:NEAR
+      25				EXTRN	PR_Out16S:NEAR
+      26				
+      27				PUBLIC	PR_NewLine, sEnter
+      28				
+      29				
+      30 0000				Data	SEGMENT	PUBLIC
+      31 0000  0000 E 0000 E 0000 E		Funcs		DW	PR_Prin
+					tMenu, PR_InputInt, PR_Out2, PR_Out2S, 
+					PR_Out10, PR_Out10S, PR_Out16, PR_Out16
+					s
+      32       0000 E 0000 E 0000 E	
+      33       0000 E 0000 E		
+      34 0010  0008				X			DW
+						8
+      35 0012  3E 20 24				sEnter		DB	'> ', '
+					$'
+      36 0015  45 6E 74 65 72 20		sInput		DB	'Enter 
+					int:  ', '$'
+      37       69 6E 74 3A 20 20	
+      38       24			
+      39 0022  58 20 5B 32 5D 3A		sPrintX2	DB	'X [2]:
+					   ', '$'
+      40       20 20 20 24		
+      41 002C  58 20 5B 31 30 5D		sPrintX10	DB	'X [10]
+					:   ', '$'
+      42       3A 20 20 20 24		
+      43 0037  58 20 5B 31 36 5D		sPrintX16	DB	'X [16]
+					:   ', '$'
+      44       3A 20 20 20 24		
+      45 0042				Data	ENDS
+      46				
+      47				
+      48				
+      49				
+      50				
+      51 0000				Code	SEGMENT	PUBLIC
+      52					ASSUME CS:Code, DS:Data, SS:Sta
+					ck
+      53					
+      54 0000				PR_NewLine	PROC	NEAR
+      55 0000  50				PUSH	AX
+      56 0001  52				PUSH	DX
+      57					
+      58 0002  B4 02				MOV		AH,2
+      59 0004  B2 0A				MOV		DL,10
+      60 0006  CD 21				INT		21h
+      61 0008  B2 0D				MOV		DL,13
+      62 000A  CD 21				INT		21h
+      63					
+      64 000C  5A				POP		DX
+      65 000D  58				POP		AX
+      66 000E  C3				RET
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:06:3
+                                                             Page     1-3
+
+
+      67 000F				PR_NewLine	ENDP
+      68				
+      69				
+      70				
+      71				
+      72 000F				START:
+      73 000F  B8 ---- R			MOV		AX,Data
+      74 0012  8E D8				MOV		DS,AX
+      75					
+      76 0014  FF 16 0000 R			CALL	Funcs	;печатаем меню 
+					при запуске
+      77					
+      78 0018					LEnter_Loop:
+      79						;CALL	PR_NewLine
+						;печатаем приглашение
+      80 0018  E8 0000 R				CALL	PR_NewLine
+						;печатаем приглашение
+      81 001B  B4 09					MOV		AH,9
+      82 001D  8D 16 0012 R				LEA		DX,sEnt
+					er
+      83 0021  CD 21					INT		21h
+      84						
+      85						
+      86 0023  B4 08					MOV		AH,8
+							;ввод символа без эха
+      87 0025  CD 21					INT		21h
+      88 0027  3C 38					CMP		AL,'8'
+      89 0029  77 ED					JA		LEnter_
+					Loop	;требуем ввести цифру, если >8!
+      90 002B  3C 30					CMP		AL,'0'
+      91 002D  72 E9					JB		LEnter_
+					Loop	;требуем ввести цифру, если <0!
+      92 002F  B4 02					MOV		AH,2
+							;печатаем введенную циф
+					ру
+      93 0031  8A D0					MOV		DL,AL
+      94 0033  CD 21					INT		21h
+      95 0035  E8 0000 R				CALL	PR_NewLine
+      96						
+      97 0038  8A D8					MOV		BL,AL
+      98 003A  80 EB 30					SUB		BL,'0'
+      99						
+     100 003D  80 FB 08					CMP		BL,8
+						;смотрим, какую цифру ввЄл юзер
+     101 0040  74 23					JE		LEnd
+						;если 8 - то абандон тред
+     102						
+     103 0042  02 DB					ADD		BL,BL
+						; удваиваем цифру, потому что а
+					дрес двухбайтовый
+     104 0044  B7 00					MOV		BH,0
+     105						
+     106 0046  80 FB 02					CMP		BL,2
+							;если юзер запросил печ
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:06:3
+                                                             Page     1-4
+
+
+					ать ’, то передадим ’ через стек в функ
+					цию
+     107 0049  76 04					JBE		LSkip_P
+					ush
+     108 004B  FF 36 0010 R					PUSH	X
+     109 004F						LSkip_Push:
+     110						
+     111 004F  FF 97 0000 R				CALL	Funcs[BX]
+						;вызываем нужную функцию из мас
+					сива
+     112						
+     113 0053  80 FB 02					CMP		BL,2
+							;если юзер запрашивал п
+					ечать ’, то почистим стек
+     114 0056  76 03					JBE		LSkip_P
+					op
+     115 0058  83 C4 02						ADD	
+						SP,2
+     116 005B						LSkip_Pop:
+     117						
+     118 005B  80 FB 02					CMP		BL,2
+							;если юзер вводил число
+     119 005E  75 B8					JNE		LEnter_
+					Loop	;то загрузим это число в пам€ть
+     120 0060  A3 0010 R					MOV	
+						X,AX
+     121						
+     122						
+     123 0063  EB B3				JMP		LEnter_Loop
+     124					
+     125					; выход ~~~~~~~~~~~~~~~~~~
+     126 0065					LEnd:
+     127 0065  B4 4C				MOV		AH,4Ch
+     128 0067  B0 00				MOV		AL,0
+     129 0069  CD 21				INT		21h
+     130				
+     131 006B				Code	ENDS
+     132				
+     133				
+     134				
+     135				
+     136 0000				Stack	SEGMENT STACK
+     137 0000  0128[				DW	128h DUP (?)
+     138	   ????			
+     139			 ]	
+     140				
+     141 0250				Stack	ENDS
+     142				
+     143					END START
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:06:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	006B	PARA	PUBLIC	
+DATA . . . . . . . . . . . . . .  	0042	PARA	PUBLIC	
+STACK  . . . . . . . . . . . . .  	0250	PARA	STACK	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+FUNCS  . . . . . . . . . . . . .  	L 0002	0000	DATA
+
+LEND . . . . . . . . . . . . . .  	L NEAR	0065	CODE
+LENTER_LOOP  . . . . . . . . . .  	L NEAR	0018	CODE
+LSKIP_POP  . . . . . . . . . . .  	L NEAR	005B	CODE
+LSKIP_PUSH . . . . . . . . . . .  	L NEAR	004F	CODE
+
+PR_INPUTINT  . . . . . . . . . .  	L NEAR	0000		External
+PR_NEWLINE . . . . . . . . . . .  	N PROC	0000	CODE	Global	Length = 000F
+PR_OUT10 . . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT10S  . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT16 . . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT16S  . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT2  . . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT2S . . . . . . . . . . . .  	L NEAR	0000		External
+PR_PRINTMENU . . . . . . . . . .  	L NEAR	0000		External
+
+SENTER . . . . . . . . . . . . .  	L BYTE	0012	DATA	Global
+SINPUT . . . . . . . . . . . . .  	L BYTE	0015	DATA
+SPRINTX10  . . . . . . . . . . .  	L BYTE	002C	DATA
+SPRINTX16  . . . . . . . . . . .  	L BYTE	0037	DATA
+SPRINTX2 . . . . . . . . . . . .  	L BYTE	0022	DATA
+START  . . . . . . . . . . . . .  	L NEAR	000F	CODE
+
+X  . . . . . . . . . . . . . . .  	L WORD	0010	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l6		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    133 Source  Lines
+    133 Total   Lines
+     33 Symbols
+
+  47438 + 455725 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

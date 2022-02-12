@@ -1,0 +1,179 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 24:08:3
+                                                             Page     1-1
+
+
+       1				;С0Т Ц вывод пунктов меню с номерами 0.
+					.8
+       2				
+       3				PUBLIC	PR_PrintMenu
+       4				EXTRN	PR_NewLine:NEAR
+       5				
+       6 0000				Data	SEGMENT	PUBLIC
+       7 0000  0A 0D 20 20 20 4D		sMenu	DB	10,13,'   MENU'
+					, '$'
+       8       45 4E 55 24		
+       9 000A  30 2E 20 50 65 63		sM0		DB	'0. Pec
+					hat menu', '$'
+      10       68 61 74 20 6D 65	
+      11       6E 75 24			
+      12 0019  31 2E 20 56 76 6F		sM1		DB	'1. Vvo
+					d celogo', '$'
+      13       64 20 63 65 6C 6F	
+      14       67 6F 24			
+      15 0028  32 2E 20 50 65 63		sM2		DB	'2. Pec
+					hat dvoichnogo bez znaka', '$'
+      16       68 61 74 20 64 76	
+      17       6F 69 63 68 6E 6F	
+      18       67 6F 20 62 65 7A	
+      19       20 7A 6E 61 6B 61	
+      20       24			
+      21 0047  33 2E 20 50 65 63		sM3		DB	'3. Pec
+					hat dvoichnogo so znakom', '$'
+      22       68 61 74 20 64 76	
+      23       6F 69 63 68 6E 6F	
+      24       67 6F 20 73 6F 20	
+      25       7A 6E 61 6B 6F 6D	
+      26       24			
+      27 0066  34 2E 20 50 65 63		sM4		DB	'4. Pec
+					hat desyatichnogo bez znaka', '$'
+      28       68 61 74 20 64 65	
+      29       73 79 61 74 69 63	
+      30       68 6E 6F 67 6F 20	
+      31       62 65 7A 20 7A 6E	
+      32       61 6B 61 24		
+      33 0088  35 2E 20 50 65 63		sM5		DB	'5. Pec
+					hat desyatichnogo so znakom', '$'
+      34       68 61 74 20 64 65	
+      35       73 79 61 74 69 63	
+      36       68 6E 6F 67 6F 20	
+      37       73 6F 20 7A 6E 61	
+      38       6B 6F 6D 24		
+      39 00AA  36 2E 20 50 65 63		sM6		DB	'6. Pec
+					hat shestnadcati- bez znaka', '$'
+      40       68 61 74 20 73 68	
+      41       65 73 74 6E 61 64	
+      42       63 61 74 69 2D 20	
+      43       62 65 7A 20 7A 6E	
+      44       61 6B 61 24		
+      45 00CC  37 2E 20 50 65 63		sM7		DB	'7. Pec
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 24:08:3
+                                                             Page     1-2
+
+
+					hat shestnadcati- so znakom','$'
+      46       68 61 74 20 73 68	
+      47       65 73 74 6E 61 64	
+      48       63 61 74 69 2D 20	
+      49       73 6F 20 7A 6E 61	
+      50       6B 6F 6D 24		
+      51 00EE  38 2E 20 56 79 68		sM8		DB	'8. Vyh
+					od', '$'
+      52       6F 64 24			
+      53 00F7				Data	ENDS
+      54				
+      55				
+      56				
+      57				
+      58				
+      59 0000				Code	SEGMENT	PUBLIC
+      60					ASSUME CS:Code, DS:Data
+      61				;--------------------------------------
+					---------------------------------------
+					---------
+      62				;печатает меню программы
+      63				;--------------------------------------
+					---------------------------------------
+					---------
+      64 0000				PR_PrintMenu	PROC	NEAR
+      65 0000  50				PUSH	AX
+      66 0001  52				PUSH	DX
+      67					
+      68 0002  B4 09				MOV		AH,9	;печать
+					 строк
+      69					
+      70 0004  8D 16 0000 R			LEA		DX,sMenu
+      71 0008  CD 21				INT		21h
+      72 000A  E8 0000 E			CALL	PR_NewLine
+      73 000D  8D 16 000A R			LEA		DX,sM0
+      74 0011  CD 21				INT		21h
+      75 0013  E8 0000 E			CALL	PR_NewLine
+      76 0016  8D 16 0019 R			LEA		DX,sM1
+      77 001A  CD 21				INT		21h
+      78 001C  E8 0000 E			CALL	PR_NewLine
+      79 001F  8D 16 0028 R			LEA		DX,sM2
+      80 0023  CD 21				INT		21h
+      81 0025  E8 0000 E			CALL	PR_NewLine
+      82 0028  8D 16 0047 R			LEA		DX,sM3
+      83 002C  CD 21				INT		21h
+      84 002E  E8 0000 E			CALL	PR_NewLine
+      85 0031  8D 16 0066 R			LEA		DX,sM4
+      86 0035  CD 21				INT		21h
+      87 0037  E8 0000 E			CALL	PR_NewLine
+      88 003A  8D 16 0088 R			LEA		DX,sM5
+      89 003E  CD 21				INT		21h
+      90 0040  E8 0000 E			CALL	PR_NewLine
+      91 0043  8D 16 00AA R			LEA		DX,sM6
+      92 0047  CD 21				INT		21h
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 24:08:3
+                                                             Page     1-3
+
+
+      93 0049  E8 0000 E			CALL	PR_NewLine
+      94 004C  8D 16 00CC R			LEA		DX,sM7
+      95 0050  CD 21				INT		21h
+      96 0052  E8 0000 E			CALL	PR_NewLine
+      97 0055  8D 16 00EE R			LEA		DX,sM8
+      98 0059  CD 21				INT		21h
+      99					
+     100 005B  5A				POP		DX
+     101 005C  58				POP		AX	
+     102 005D  C3				RET
+     103 005E				PR_PrintMenu	ENDP
+     104				;--------------------------------------
+					---------------------------------------
+					---------
+     105 005E				Code	ENDS
+     106				
+     107				END
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 24:08:3
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	005E	PARA	PUBLIC	
+DATA . . . . . . . . . . . . . .  	00F7	PARA	PUBLIC	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+PR_NEWLINE . . . . . . . . . . .  	L NEAR	0000		External
+PR_PRINTMENU . . . . . . . . . .  	N PROC	0000	CODE	Global	Length = 005E
+
+SM0  . . . . . . . . . . . . . .  	L BYTE	000A	DATA
+SM1  . . . . . . . . . . . . . .  	L BYTE	0019	DATA
+SM2  . . . . . . . . . . . . . .  	L BYTE	0028	DATA
+SM3  . . . . . . . . . . . . . .  	L BYTE	0047	DATA
+SM4  . . . . . . . . . . . . . .  	L BYTE	0066	DATA
+SM5  . . . . . . . . . . . . . .  	L BYTE	0088	DATA
+SM6  . . . . . . . . . . . . . .  	L BYTE	00AA	DATA
+SM7  . . . . . . . . . . . . . .  	L BYTE	00CC	DATA
+SM8  . . . . . . . . . . . . . .  	L BYTE	00EE	DATA
+SMENU  . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  _print		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     71 Source  Lines
+     71 Total   Lines
+     23 Symbols
+
+  47556 + 459704 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

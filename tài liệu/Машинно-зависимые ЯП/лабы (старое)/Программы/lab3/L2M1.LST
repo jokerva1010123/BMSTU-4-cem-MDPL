@@ -1,0 +1,62 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:43
+                                                             Page     1-1
+
+
+       1				;ЛАБ №3 ЗАДАНИЕ 2 МОДУЛЬ M1 (см. модуль
+					 M2)
+       2 0000				Code	SEGMENT PUBLIC
+       3				        ASSUME  CS:Code, DS:Data
+       4 0000					PP1	PROC 
+       5 0000  B8 ---- R		        MOV		AX,DATA        
+					;загрузка в AX адреса сегмента данных
+       6 0003  8E D8			        MOV		DS,AX          
+					;установка DS
+       7 0005  BA 0000 R		        MOV		DX,OFFSET A1   
+					;DS:DX - адрес строки
+       8 0008  B4 09			        MOV		AH,9           
+					;АН=09h выдать на дисплей строку
+       9 000A  CD 21			        INT		21H            
+					;вызов  функции DOS
+      10 000C  B4 07			        MOV		AH,7           
+					;АН=07h ввести символ без эха
+      11 000E  CD 21			        INT		21h            
+					;вызов  функции DOS
+      12 0010					PP1	ENDP
+      13 0010				Code    ENDS
+      14				
+      15 0000				Data   SEGMENT PUBLIC 'DATA'
+      16 0000  0D 0A 41 31 24			A1    DB   13, 10, 'A1$' 
+      17 0005				Data   ENDS
+      18					END PP1
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:43
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0010	PARA	PUBLIC	
+DATA . . . . . . . . . . . . . .  	0005	PARA	PUBLIC	'DATA'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A1 . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+PP1  . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0010
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l2m1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     18 Source  Lines
+     18 Total   Lines
+     13 Symbols
+
+  47450 + 463905 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

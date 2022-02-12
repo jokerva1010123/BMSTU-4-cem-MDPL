@@ -1,0 +1,126 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Page     1-1
+
+
+       1				;‘0’ – вывод пунктов меню с номерами 0.
+					.8
+       2				
+       3				PUBLIC	PR_Out2
+       4				EXTRN	PR_NewLine:NEAR
+       5				
+       6				
+       7				
+       8				
+       9				
+      10				
+      11 0000				Code	SEGMENT	PUBLIC
+      12					ASSUME CS:Code
+      13				;--------------------------------------
+					---------------------------------------
+					---------
+      14				;Печатает переменную, переданную через 
+					стек, как двоичное число без знака (4 к
+					ак 100, -4 как 1111111111111100)
+      15				;--------------------------------------
+					---------------------------------------
+					---------
+      16 0000				PR_Out2	PROC	NEAR
+      17 0000  55				PUSH	BP		;переда
+					ем параметр
+      18 0001  8B EC				MOV		BP,SP
+      19 0003  50				PUSH	AX
+      20 0004  52				PUSH	DX
+      21 0005  56				PUSH	SI
+      22					
+      23 0006  8B 46 04				MOV		AX,[BP+4]
+						;получаем в АХ число, которое н
+					адо распечатать
+      24 0009  BE 0010				MOV		SI,16
+      25					
+      26					;избавляемся от лидирующих нуле
+					й
+      27 000C					LO2_Shl1:
+      28 000C  B6 00					MOV		DH,0
+      29 000E  D1 E0					SHL		AX,1
+							;сдвигаемся влево пока 
+					не кончатся 0
+      30 0010  73 05					JNC		LO2_Shl
+					1_CF
+      31 0012  FE C6						INC	
+						DH
+      32 0014  EB 0C 90						JMP	
+						LO2_Shl2_CF
+      33 0017						LO2_Shl1_CF:
+      34 0017  4E					DEC		SI
+      35 0018  75 F2				JNZ		LO2_Shl1
+						;крутимся пока не выдвинем в CF
+					 1 или не закончатся биты
+      36					
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Page     1-2
+
+
+      37 001A					LO2_Shl2:
+      38 001A  B6 00					MOV		DH,0
+      39 001C  D1 E0					SHL		AX,1
+      40 001E  73 02					JNC		LO2_Shl
+					2_CF
+      41 0020  FE C6						INC	
+						DH
+      42 0022						LO2_Shl2_CF:
+      43 0022  B2 30					MOV		DL,'0'
+      44 0024  02 D6					ADD		DL,DH
+      45 0026  50					PUSH	AX
+      46 0027  B4 02					MOV		AH,2
+      47 0029  CD 21					INT		21h
+      48 002B  58					POP		AX
+      49 002C  4E					DEC		SI
+      50 002D  75 EB				JNZ		LO2_Shl2
+      51					
+      52 002F  5E				POP		SI
+      53 0030  5A				POP		DX
+      54 0031  58				POP		AX
+      55 0032  5D				POP		BP
+      56 0033  C3				RET
+      57 0034				PR_Out2	ENDP
+      58				;--------------------------------------
+					---------------------------------------
+					---------
+      59 0034				Code	ENDS
+      60				
+      61				END
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:1
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0034	PARA	PUBLIC	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+LO2_SHL1 . . . . . . . . . . . .  	L NEAR	000C	CODE
+LO2_SHL1_CF  . . . . . . . . . .  	L NEAR	0017	CODE
+LO2_SHL2 . . . . . . . . . . . .  	L NEAR	001A	CODE
+LO2_SHL2_CF  . . . . . . . . . .  	L NEAR	0022	CODE
+
+PR_NEWLINE . . . . . . . . . . .  	L NEAR	0000		External
+PR_OUT2  . . . . . . . . . . . .  	N PROC	0000	CODE	Global	Length = 0034
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  _out2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     61 Source  Lines
+     61 Total   Lines
+     16 Symbols
+
+  47424 + 461883 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

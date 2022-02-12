@@ -1,0 +1,12 @@
+LINK : warning L4021: no stack segment
+
+ Start  Stop   Length Name                   Class
+ 00000H 00000H 00001H DSEGA                  
+ 00010H 00021H 00012H CSEG                   
+ 00030H 00030H 00001H DSEGB                  
+ 00040H 00056H 00017H CSEG                   
+
+Program entry point at 0001:0000
+LAB4\L4_42.OBJ(lab4\l4_42.asm) : error L2002: fixup overflow at 0010 in segment CSEG
+ pos: A0 Record type: 73EE
+ target external 'B'

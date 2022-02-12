@@ -1,0 +1,56 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 14:05:42
+                                                             Page     1-1
+
+
+       1				;À¿¡ π3 «¿ƒ¿Õ»≈ 5 ÃŒƒ”À‹ M1 (ÒÏ. ÏÓ‰ÛÎ¸
+					 M2)
+       2 0000				DSEG	SEGMENT COMMON
+       3 000C					ORG	12
+       4 000C					A	LABEL	BYTE
+       5 000C				DSEG ENDS
+       6				
+       7 0000				CSEG	SEGMENT 
+       8						ASSUME CS:CSEG, DS:DSEG
+       9					EXTRN M2:NEAR
+      10 0000				M1:
+      11 0000  B8 ---- R			MOV		AX,DSEG
+      12 0003  8E D8				MOV		DS,AX
+      13 0005  B4 07				MOV		AH,7
+      14 0007  CD 21				INT		21h
+      15 0009  A2 000C R			MOV		A,AL
+      16 000C  E9 0000 E			JMP		M2
+      17 000F				CSEG	ENDS
+      18					END M1
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 14:05:42
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	000F	PARA	NONE	
+DSEG . . . . . . . . . . . . . .  	000C	PARA	COMMON	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L BYTE	000C	DSEG
+
+M1 . . . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+M2 . . . . . . . . . . . . . . .  	L NEAR	0000	CSEG	External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l5m1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     18 Source  Lines
+     18 Total   Lines
+     14 Symbols
+
+  47490 + 463865 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

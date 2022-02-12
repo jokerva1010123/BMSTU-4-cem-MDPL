@@ -1,0 +1,63 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:39
+                                                             Page     1-1
+
+
+       1				;ЛАБ №3 ЗАДАНИЕ 1 МОДУЛЬ M2 (см. модуль
+					 M1)
+       2 0000				Data	SEGMENT 'DATA'
+       3 0000  0D 0A 41 32 24			A2	DB	13, 10, 'A2$' 
+       4 0005				Data	ENDS
+       5				
+       6 0000				Code    SEGMENT BYTE  
+       7				        ASSUME  CS:Code, DS:Data
+       8 0000					PP2	PROC FAR
+       9 0000  B8 ---- R				MOV		AX,DATA
+					         
+      10 0003  8E D8					MOV		DS,AX  
+					         
+      11 0005  BA 0000 R				MOV		DX,OFFS
+					ET A2 ;DS:DX - адрес строки
+      12 0008  B4 09					MOV		AH,9   
+					      ;АН=09h выдать на дисплей строку
+      13 000A  CD 21					INT		21H    
+					      ;вызов  функции DOS
+      14 000C  B4 07					MOV		AH,7   
+					      ;АН=07h ввести символ без эха
+      15 000E  CD 21					INT		21h    
+					      ;с ожиданием
+      16 0010  CB					RET
+      17 0011					PP2	ENDP
+      18 0011				Code    ENDS
+      19				        END   
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:39
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0011	BYTE	NONE	
+DATA . . . . . . . . . . . . . .  	0005	PARA	NONE	'DATA'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A2 . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+PP2  . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0011
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l1m2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     19 Source  Lines
+     19 Total   Lines
+     13 Symbols
+
+  47490 + 463865 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

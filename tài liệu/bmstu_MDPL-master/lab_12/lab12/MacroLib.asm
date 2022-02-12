@@ -1,0 +1,24 @@
+.386
+.model FLAT,C
+
+include BIBLmacro.txt
+
+public START
+
+.DATA
+
+.CODE
+START PROC
+
+;PUSHR <ESI,EDI,EBX,EBP>
+;POPR <ESI,EDI,EBX,EBP>
+
+RET
+START ENDP
+
+SIN PROC
+MOSHBL M1, VOID, <X, Y>, <>
+SIN ENDP
+
+
+END

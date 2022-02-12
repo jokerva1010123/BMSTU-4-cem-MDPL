@@ -1,0 +1,165 @@
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:0
+                                                             Page     1-1
+
+
+       1				;С1Т Ц ввод (в основной программе) с кл
+					авиатуры дес€тичного целого, возможно,
+       2				;со знаком минус, преобразование  (в пр
+					оцедуре-функции) во внутреннее представ
+					ление
+       3				;и размещение (в основной программе) в 
+					2-байтовой €чейке X
+       4				
+       5				PUBLIC	PR_InputInt
+       6				EXTRN	sEnter:BYTE
+       7				
+       8 0000				Data	SEGMENT	PUBLIC
+       9 0000  0D 0A 3C 65 6E 74		sSucceed	DB	13,10,'
+					<entered>',13,10,'$'
+      10       65 72 65 64 3E 0D	
+      11       0A 24			
+      12 000E				Data	ENDS
+      13				
+      14 0000				Code	SEGMENT	PUBLIC
+      15					ASSUME CS:Code
+      16				
+      17				
+      18				;--------------------------------------
+					---------------------------------------
+					---------
+      19				;¬вод целого числа со знаком и без; воз
+					вращает введенное число через AX
+      20				;--------------------------------------
+					---------------------------------------
+					---------
+      21 0000				PR_InputInt	PROC	NEAR
+      22 0000  53				PUSH	BX		;в ¬’ б
+					удем хранить промежуточный результат вв
+					ода
+      23 0001  52				PUSH	DX		;DX дл€
+					 печати
+      24 0002  56				PUSH	SI		;наличи
+					е знака
+      25 0003  B8 0000				MOV		AX,0
+      26 0006  BB 0000				MOV		BX,0
+      27					
+      28 0009  B4 09				MOV		AH,9
+      29 000B  8D 16 0000 E			LEA		DX,sEnter
+						;воспользуемс€ пока что ƒ’ чтоб
+					ы вывести приглашение к вводу
+      30 000F  CD 21				INT		21h
+      31 0011  BA 0000				MOV		DX,0
+      32 0014					LII_Loop:
+      33 0014  B4 01					MOV		AH,1
+      34 0016  CD 21					INT		21h
+							;получаем в јЋ символ
+      35						
+      36 0018  3C 0D					CMP		AL,13
+						;если в јЋ - ентер, то закругл€
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:0
+                                                             Page     1-2
+
+
+					емс€
+      37 001A  74 1B					JE		LII_Suc
+					cess
+      38						
+      39 001C  3C 2D					CMP		AL,2Dh
+      40 001E  75 05					JNE		LII_Not
+					Minus
+      41 0020  BE 0001						MOV	SI,1
+						;запомним что число отрицательн
+					ое
+      42 0023  EB EF						JMP	LII_Loo
+					p
+      43 0025						LII_NotMinus:
+      44						
+      45						;#define юзверь не дура
+					к и вводит только цифры
+      46 0025  50					PUSH	AX	
+						;сохраним символ..
+      47 0026  8B C3					MOV		AX,BX
+      48 0028  BB 000A					MOV		BX,10
+						;потомучто ассемблер не умеет в
+					 MUL 10
+      49 002B  F7 E3					MUL		BX
+							;умножаем уже введенную
+					 часть на 10..
+      50 002D  5B					POP		BX
+							;получим обратно символ
+					..
+      51 002E  80 EB 30					SUB		BL,'0'
+						;преобразуем символ в цифру..
+      52 0031  B7 00					MOV		BH,0
+      53 0033  03 D8					ADD		BX,AX
+						;добавим цифру к введенной част
+					и.
+      54 0035  EB DD				JMP	LII_Loop
+      55					
+      56 0037					LII_Success:
+      57 0037  8B C3				MOV	AX,BX
+      58 0039  83 FE 01				CMP	SI,1	;если нужно, то
+					 умножим на -1
+      59 003C  75 02				JNE	LII_End
+      60 003E  F7 D8					NEG	AX
+      61 0040					LII_End:
+      62					
+      63 0040  50				PUSH	AX
+      64 0041  8D 16 0000 R			LEA		DX,sSucceed
+      65 0045  B4 09				MOV		AH,9
+      66 0047  CD 21				INT		21h
+      67 0049  58				POP		AX
+      68 004A  5E				POP		SI
+      69 004B  5A				POP		DX
+      70 004C  5B				POP		BX
+      71 004D  C3				RET	
+      72 004E				PR_InputInt	ENDP
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:0
+                                                             Page     1-3
+
+
+      73				;--------------------------------------
+					---------------------------------------
+					---------
+      74				
+      75 004E				Code	ENDS
+      76				
+      77				END
+Microsoft (R) Macro Assembler Version 5.10                  12/17/13 29:12:0
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	004E	PARA	PUBLIC	
+DATA . . . . . . . . . . . . . .  	000E	PARA	PUBLIC	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+LII_END  . . . . . . . . . . . .  	L NEAR	0040	CODE
+LII_LOOP . . . . . . . . . . . .  	L NEAR	0014	CODE
+LII_NOTMINUS . . . . . . . . . .  	L NEAR	0025	CODE
+LII_SUCCESS  . . . . . . . . . .  	L NEAR	0037	CODE
+
+PR_INPUTINT  . . . . . . . . . .  	N PROC	0000	CODE	Global	Length = 004E
+
+SENTER . . . . . . . . . . . . .  	V BYTE	0000		External
+SSUCCEED . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  _enter		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     75 Source  Lines
+     75 Total   Lines
+     18 Symbols
+
+  47556 + 461751 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

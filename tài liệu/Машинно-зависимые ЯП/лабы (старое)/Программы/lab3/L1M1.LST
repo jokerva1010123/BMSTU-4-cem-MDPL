@@ -1,0 +1,81 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:35
+                                                             Page     1-1
+
+
+       1				;ЛАБ №3 ЗАДАНИЕ 1 МОДУЛЬ M1 (см. модуль
+					 M2)
+       2 0000				Code	SEGMENT 
+       3				        ASSUME  CS:Code, DS:Data, SS:ST
+					EK
+       4 0000					PP1	PROC 
+       5 0000  1E					PUSH	DS
+       6 0001  B8 0000					MOV		AX,0
+       7 0004  50					PUSH	AX
+       8 0005  B8 ---- R				mov		AX,Data
+					 ;загрузка в AX адреса сегмента 
+       9 0008  8E D8					mov		DS,AX  
+					 ;данных  и установка DS
+      10 000A  BA 0000 R				mov		DX,OFFS
+					ET A1 ;DS:DX - адрес строки
+      11 000D  B4 09					mov		AH,9   
+					 ;АН=09h выдать на дисплей строку
+      12 000F  CD 21					int		21h    
+					 ;до символа ‘$’
+      13 0011  B4 07					mov		AH,7   
+					 ;АН=07h ввести символ без эха
+      14 0013  CD 21					INT		21h    
+					 ;с ожиданием 
+      15 0015					PP1	ENDP
+      16 0015				Code    ENDS
+      17				
+      18 0000				Data	SEGMENT  'DATA'
+      19 0000  0D				A1	DB	13    ;курсор п
+					оместить в нач. строки
+      20 0001  0A					DB	10    ;перевест
+					и курсор на нов. строку
+      21 0002  41 31					DB	'A1'  ;текст со
+					общения 
+      22 0004  24					DB	'$'   ;ограничи
+					тель для функции DOS
+      23 0005				Data   ENDS
+      24				
+      25 0000				STEK	SEGMENT STACK 'STACK'
+      26 0000  0128[			        DW      128h DUP (?)
+      27	   ????			
+      28			 ]	
+      29				
+      30 0250				STEK	ENDS
+      31				        END   PP1
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:35
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0015	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0005	PARA	NONE	'DATA'
+STEK . . . . . . . . . . . . . .  	0250	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A1 . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+PP1  . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0015
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l1m1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     28 Source  Lines
+     28 Total   Lines
+     15 Symbols
+
+  47450 + 463905 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

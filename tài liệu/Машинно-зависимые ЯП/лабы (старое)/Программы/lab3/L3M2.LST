@@ -1,0 +1,50 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:51
+                                                             Page     1-1
+
+
+       1				;ЛАБ №3 ЗАДАНИЕ 3 МОДУЛЬ M2 (см. модуль
+					 M1)
+       2 0000				Code	SEGMENT BYTE PUBLIC
+       3						ASSUME  CS:Code
+       4 0000					PP2	PROC FAR
+       5 0000  B4 09					mov		AH,9   
+					;АН=09h выдать на дисплей строку
+       6 0002  CD 21					int		21h    
+					;вызов  функции DOS
+       7 0004  B4 07					mov		AH,7   
+					;АН=07h ввести символ без эха
+       8 0006  CD 21					INT		21h    
+					;вызов  функции DOS
+       9 0008  CB					RET
+      10 0009					PP2	ENDP
+      11 0009				Code	ENDS
+      12					END   
+Microsoft (R) Macro Assembler Version 5.10                  10/3/13 11:40:51
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0009	BYTE	PUBLIC	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+PP2  . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0009
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l3m2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     12 Source  Lines
+     12 Total   Lines
+     11 Symbols
+
+  47530 + 463825 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

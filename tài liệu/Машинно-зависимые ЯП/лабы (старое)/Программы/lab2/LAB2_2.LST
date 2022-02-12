@@ -1,0 +1,103 @@
+Microsoft (R) Macro Assembler Version 5.10                  9/25/13 14:48:48
+œ–Œ√–¿ÃÃ¿ #2                                                Page     1-1
+
+
+       1				TITLE           œ–Œ√–¿ÃÃ¿ #2
+       2				
+       3 0000				     SSTACK     SEGMENT PARA STACK  'ST
+					ACK'
+       4 0000  0040[			                DB   64 DUP('—“≈ ____')
+       5	   D1 D2 C5 CA 5F	
+       6	   5F 5F 5F		
+       7			 ]	
+       8				
+       9 0200				     SSTACK     ENDS
+      10				
+      11 0000				     DSEG          SEGMENT  PARA PUBLIC
+					 'DATA'
+      12 0000  00 01 02 03 04 05	     X         DB      0,1,2,3,4,5,6,7
+      13       06 07			
+      14 0008  01			     B         DB      1B
+      15 0009  00			     K         DB      ?
+      16 000A				     DSEG          ENDS
+      17				
+      18				SUBTTL         Œ—ÕŒ¬Õ¿ﬂ œ–Œ√–¿ÃÃ¿
+Microsoft (R) Macro Assembler Version 5.10                  9/25/13 14:48:48
+œ–Œ√–¿ÃÃ¿ #2                                                Page     1-2
+Œ—ÕŒ¬Õ¿ﬂ œ–Œ√–¿ÃÃ¿                                          
+
+      19				PAGE
+      20 0000				     CSEG      SEGMENT PARA PUBLIC 'COD
+					E'
+      21				               ASSUME CS:CSEG,DS:DSEG,S
+					S:SSTACK
+      22				
+      23 0000				     START     PROC FAR
+      24 0000  B8 ---- R		               MOV  AX,DSEG
+      25 0003  8E D8			               MOV  DS,AX
+      26				
+      27 0005  C6 06 0009 R 02		     M1:       MOV   K,2
+      28 000A  BE 0000			               MOV SI,0
+      29 000D  B9 0008			               MOV CX,8
+      30 0010  A0 0008 R		               MOV AL,B
+      31 0013  84 84 0000 R		     M2:       TEST X[SI],AL
+      32 0017  75 06			               JNZ  M3
+      33 0019  FE 0E 0009 R		               DEC  K
+      34 001D  74 03			               JZ   M4
+      35 001F  46			     M3:       INC  SI
+      36 0020  E2 F1			               LOOP M2
+      37 0022  83 C6 30			     M4:       ADD  SI,'0'
+      38 0025  B4 02			               MOV  AH,2
+      39 0027  8B D6			               MOV  DX,SI
+      40 0029  CD 21			     M5:       INT  21H
+      41 002B  B4 4C			     M6:       MOV  AH,4CH
+      42 002D  B0 00			               MOV  AL,0
+      43 002F  CD 21			               INT 21H
+      44 0031				     START     ENDP
+      45				
+      46 0031				     CSEG      ENDS
+      47				               END  START
+Microsoft (R) Macro Assembler Version 5.10                  9/25/13 14:48:48
+œ–Œ√–¿ÃÃ¿ #2                                                Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0031	PARA	PUBLIC	'CODE'
+DSEG . . . . . . . . . . . . . .  	000A	PARA	PUBLIC	'DATA'
+SSTACK . . . . . . . . . . . . .  	0200	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+B  . . . . . . . . . . . . . . .  	L BYTE	0008	DSEG
+
+K  . . . . . . . . . . . . . . .  	L BYTE	0009	DSEG
+
+M1 . . . . . . . . . . . . . . .  	L NEAR	0005	CSEG
+M2 . . . . . . . . . . . . . . .  	L NEAR	0013	CSEG
+M3 . . . . . . . . . . . . . . .  	L NEAR	001F	CSEG
+M4 . . . . . . . . . . . . . . .  	L NEAR	0022	CSEG
+M5 . . . . . . . . . . . . . . .  	L NEAR	0029	CSEG
+M6 . . . . . . . . . . . . . . .  	L NEAR	002B	CSEG
+
+START  . . . . . . . . . . . . .  	F PROC	0000	CSEG	Length = 0031
+
+X  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEG
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab2_2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     42 Source  Lines
+     42 Total   Lines
+     25 Symbols
+
+  47392 + 459868 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

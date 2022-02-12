@@ -1,0 +1,69 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 14:07:23
+                                                             Page     1-1
+
+
+       1				;À¿¡ π3 «¿ƒ¿Õ»≈ 6 ÃŒƒ”À‹ M2 (ÒÏ. ÏÓ‰ÛÎ¸
+					 M1)
+       2 0000				DSEG	SEGMENT PUBLIC
+       3				;	EXTRN D1:BYTE  ;¡”ƒ≈“ ¬€¬Œƒ 'D'
+       4 0000  64				D2	DB 'd'
+       5 0001				DSEG	ENDS
+       6				
+       7					EXTRN D1:BYTE  ;¡”ƒ≈“ ¬€¬Œƒ 'e'
+       8 0000				ESEG	SEGMENT 
+       9 0000  65				E2	DB 'e'
+      10 0001				ESEG ENDS
+      11				
+      12					PUBLIC PP2
+      13 0000				CSEG	SEGMENT 
+      14						ASSUME CS:CSEG, ES:DSEG
+					, DS:ESEG
+      15 0000					PP2	PROC
+      16 0000  B8 ---- R				MOV		AX,DSEG
+      17 0003  8E C0					MOV		ES,AX
+      18 0005  B8 ---- R				MOV		AX,ESEG
+      19 0008  8E D8					MOV		DS,AX
+      20				
+      21 000A  B4 02					MOV		AH,2
+      22 000C  8A 16 0000 E				MOV		DL,D1
+      23 0010  CD 21					INT		21H
+      24 0012  C3					RET
+      25 0013					PP2	ENDP
+      26 0013				CSEG ENDS
+      27					END 
+Microsoft (R) Macro Assembler Version 5.10                  10/9/13 14:07:23
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0013	PARA	NONE	
+DSEG . . . . . . . . . . . . . .  	0001	PARA	PUBLIC	
+ESEG . . . . . . . . . . . . . .  	0001	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+D1 . . . . . . . . . . . . . . .  	V BYTE	0000		External
+D2 . . . . . . . . . . . . . . .  	L BYTE	0000	DSEG
+
+E2 . . . . . . . . . . . . . . .  	L BYTE	0000	ESEG
+
+PP2  . . . . . . . . . . . . . .  	N PROC	0000	CSEG	Global	Length = 0013
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  l6m2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     27 Source  Lines
+     27 Total   Lines
+     16 Symbols
+
+  47528 + 463827 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
