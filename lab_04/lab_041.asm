@@ -1,32 +1,25 @@
-Extern String : byte,
-       New_line : byte
+Extern String : byte
 
 StkSeg SEGMENT PARA STACK 'STACK'
     DB 200h DUP (?)
 StkSeg ENDS
 
-DataS SEGMENT PARA PUBLIC 'DATA'
-
-DataS ENDS
-
 Code SEGMENT PARA 'CODE'
     ASSUME CS: Code, SS:StkSeg
 Main:
-    mov AX, DataS
-    mov DS, AX
-
-    mov AH, 0Ah
     mov DX, OFFSET String
+    mov AH, 0Ah
     int 21h
 
-    mov DX, OFFSET New_line
-    mov AH, 09h
+    mov AH, 02h
+    mov DL, 13
+    int 21h
+    mov DL, 10
     int 21h
 
     mov SI, OFFSET String + 2
     mov AL, String[SI]
     sub AL, 30h
-    mov CX, 0
     mov CL, AL
 inc_SI:
     inc SI
