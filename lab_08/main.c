@@ -10,28 +10,28 @@ int asm_len(const char *str)
     const char *copy = str;
 
     __asm__(
-    	"xor $0, %%eax\n\t"
+        "mov $0, %%al\n\t" // поместить 0 в al
         "mov %1, %%rdi\n\t" // из первой переменной в rdi
-        "mov $0xffffffff, %%ecx\n\t" // в ecx помещаем такую цифру
+        "mov $0xffffffff, %%ecx\n\t" 
         "repne scasb\n\t" // повторять операцию, пока флаг ZF показывает "не равно или не ноль" 
         // SCASB Сканирование строки байт
-        "not %%ecx\n\t" // инвертируем 
+        "neg %%ecx\n\t" // инвертируем 
         "dec %%ecx\n\t" // -1
         "mov %%ecx, %0" // передаем то, что получили в 0 переменную
         : "=r"(len) // выходные операнды
         : "r"(copy) // входные операнды
         // то есть переменная copy разместиться в каком-то регистре общего назначения
         // (задано символом r), перед выполнением кода вставки
-        : "%ecx", "%rdi", "%eax"
+        : "%ecx", "%rdi", "%al"
     );
-    return len;
+    return len - 1;
 }
 
 void strcopy(char *dest, char *src, int len);
 
 void tests_for_strlen()
 {
-    char s[] = "12345";
+    char s[] = "12345abc";
     printf("String for test: \"%s\"\nAsm_len = %d\nStrlen = %ld\n", s, asm_len(s), strlen(s));
     
     char s1[10] = "1";
@@ -40,36 +40,20 @@ void tests_for_strlen()
 
 void tests_for_strcopy()
 {
-    char sourse[] = "qwertyuiopasdfg";
+    char sourse[15] = "abcdefghijkl";
     char destination[N] = "0123456789";
+    char std_sourse[15] = "abcdefghijkl";
+    char std_destination[N] = "0123456789";
     int len = 0;
+    strcopy(sourse + 3, sourse, 9);
+    printf("Result: %s\n", sourse);
+    memmove(std_sourse + 3, std_sourse, 9);
+    printf("Library:%s\n", std_sourse);
 
-    printf("Test 1 (different source and destination)\n");
-    len = 4;
-    printf("Data for ests: \nsourse = \"%s\", destination = \"%s\"\nSymbols copied = %d\n", 
-    sourse, destination, len);
-    // char * strcpy( char * destptr, const char * srcptr );
-    // Функция копирует Си-строку srcptr, 
-    // включая завершающий нулевой символ в строку 
-    //назначения, на которую ссылается указатель destptr
-    strcopy(destination, sourse, len);
-    printf("Result: \"%s\"\n", destination);
-    printf("------------------------\n");
-
-
-    printf("Test 2 (destination = source + 6)\n");
-    printf("String for tests: \nsourse = \"%s\", destination = \"%s\"\n", sourse, sourse + 6);
-    len = 5;
-    strcopy(sourse + 6, sourse, len);
-    printf("Result: \"%s\"\n", sourse);
-    printf("------------------------\n");
-
-    printf("Test 3 (source = destination + 4)\n");
-    printf("String for tests: \nsourse = \"%s\", destination = \"%s\"\n", sourse, sourse + 4);
-    len = 5;
-    strcopy(sourse, sourse + 4, len);
-    printf("Result: \"%s\"\n", sourse);
-    printf("------------------------\n");
+    strcopy(sourse, sourse+3, 9);
+    printf("Result: %s\n", sourse);
+    memmove(std_sourse, std_sourse+3, 9);
+    printf("Library:%s\n", std_sourse);
 }
 
 int main()

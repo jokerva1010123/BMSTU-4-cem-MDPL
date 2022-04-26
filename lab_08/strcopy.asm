@@ -3,23 +3,31 @@ section .text
 global strcopy
 
 strcopy:
-    ; SI - строка 2
-    ; DI - строка 1
     mov rcx, rdx
 
+    cmp rdi, rsi
+    jne not_equal
+    jmp quit
+
 not_equal:
-    cmp rdi, rsi    ; сравнение что копировать и куда
-    jl simple_copy  ; если первый операнд МЕНЬШЕ второго операнда - идет простое копирование
+    cmp rdi, rsi
+    jl simple_copy
 
     mov rax, rdi
-    sub rax, rsi    ; вычитаю si из ax
+    sub rax, rsi
 
     cmp rax, rcx
-    jge simple_copy  ; если первый операнд БОЛЬШЕ или РАВЕН второму, то простое копирование
+    jge simple_copy
+
+complicated_copy:
+    add rdi, rcx
+    add rsi, rcx
+    dec rsi
+    dec rdi
+    std
 
 simple_copy:
-    rep movsb ; Префикс повторения команды   Копирование строк байтов
-    cld       ; Команда CLD в Ассемблере очищает флаг направления (DF)
-
-exit:
+    rep movsb
+    cld
+quit:
     ret

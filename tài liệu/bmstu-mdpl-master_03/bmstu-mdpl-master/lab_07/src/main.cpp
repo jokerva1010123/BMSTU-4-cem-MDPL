@@ -27,9 +27,8 @@ size_t my_strlen(const char *buffer) {
 
 int main()
 {
-    char buffer[MAX_BUFFER_LEN];
+    char buffer[] = "1234567890";
     int cnt;
-    scanf("%s", buffer);
 
     cout << "Library strlen: " << strlen(buffer) << "\nMy asm strlen: " << my_strlen(buffer) << endl;
 
@@ -39,16 +38,16 @@ int main()
     cout << "Test1 (simple test, copy from source to destination different memory addresses at all):\n";
     cout << "Src: " << src << "\nDest: " << dest << endl;
 
-    char special_check[] = "abcdefghijklmnopqrstuvwxyz";
+    char special_check[] = "abcdefghijkl";
 
-    cout << "Test2: Destination = Source + 4, copysize: 8\n";
+    cout << "Test2: Destination = Source + 3, copysize: 9\n";
     cout << "Start: " << special_check << endl;
-    strcopy(special_check + 4, special_check, 8);
+    strcopy(special_check + 3, special_check, 9);
     cout << "Mine:  " << special_check << endl;
 
-    cout << "Test3: Source = Destination + 4, copysize: 8\n";
+    cout << "Test3: Source = Destination + 3, copysize: 9\n";
     cout << "Start: " << special_check << endl;
-    strcopy(special_check, special_check + 4, 8);
+    strcopy(special_check, special_check + 3, 9);
     cout << "Mine:  " << special_check << endl;
     return 0;
 }
