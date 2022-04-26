@@ -12,17 +12,6 @@ extern "C" {
 
 size_t my_strlen(const char *buffer) {
     size_t cnt;
-    //__asm__(".intel_syntax noprefix\n\t"
-            //"xor rcx, rcx\n\t"
-            //"not rcx\n\t"
-            //"mov al, 0\n\t"
-            //"mov rdi, %1\n\t"
-            //"repne scasb\n\t"
-            //"not rcx\n\t"
-            //"dec rcx\n\t"
-            //"mov %0, rcx\n\t"
-            //: "=r"(cnt) : "r"(buffer) : "rcx", "rdi", "al"
-           //);
     __asm__("xor %%rcx, %%rcx\n\t"
             "not %%rcx\n\t"
             "movb $0, %%al\n\t"
