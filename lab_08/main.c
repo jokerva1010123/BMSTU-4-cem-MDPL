@@ -45,11 +45,13 @@ void tests_for_strcopy()
     char std_sourse[15] = "abcdefghijkl";
     char std_destination[N] = "0123456789";
     int len = 0;
+    printf("Sourse: %s\nDestination: %s\n", sourse, sourse+3);
     strcopy(sourse + 3, sourse, 9);
     printf("Result: %s\n", sourse);
     memmove(std_sourse + 3, std_sourse, 9);
-    printf("Library:%s\n", std_sourse);
+    printf("Library:%s\n\n", std_sourse);
 
+    printf("Sourse: %s\nDestination: %s\n", sourse+3, sourse);
     strcopy(sourse, sourse+3, 9);
     printf("Result: %s\n", sourse);
     memmove(std_sourse, std_sourse+3, 9);
