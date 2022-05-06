@@ -51,11 +51,11 @@ void mult_float80_asm(__float80 a, __float80 b)
 void time_test_float80()
 {
     __float80 a = 1.23, b = 4.56;
-    printf("__float80 bit tests: \n");
+    printf("80 bit tests: \n");
 
-    int start = clock();
+    clock_t start = clock();
     sum_float80(a, b);
-    int end = clock();
+    clock_t end = clock();
     printf("Sum test: %lf\n", 1.0*(end - start)/10000);
 
     start = clock();

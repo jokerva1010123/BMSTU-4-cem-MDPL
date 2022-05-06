@@ -1,7 +1,7 @@
 #include "for_32_64.h"
 #include "my_main.h"
 
-#define N 1000000000
+#define N 1e7
 
 void sum_float(float a, float b)
 {
@@ -100,52 +100,52 @@ void mult_double_asm(double a, double b)
 void time_test_float()
 {
     float a = 1.23, b = 4.56;
-    printf("\n\n%lf bit tests: \n", sizeof(float) * CHAR_BIT);
+    printf("\n\n%d bit tests: \n", sizeof(float) * CHAR_BIT);
 
-    int start = clock();
+    clock_t start = clock();
     sum_float(a, b);
-    int end = clock();
-    printf("Sum test: %lf\n", 1.0*(end - start)/N);
+    clock_t end = clock();
+    printf("Sum test: %.10lf\n", (end - start)/N);
 
     start = clock();
     mult_float(a, b);
     end = clock();
-    printf("Mult test: %lf\n\n\n", 1.0*(end - start)/N);  
+    printf("Mult test: %.10lf\n\n", (end - start)/N);  
 
     start = clock();
     sum_float_asm(a, b);
     end = clock();
-    printf("Sum_asm test: %lf\n", 1.0*(end - start)/N);
+    printf("Sum_asm test: %.10lf\n", (end - start)/N);
 
     start = clock();
     mult_float_asm(a, b);
     end = clock();
-    printf("Mult_asm test: %lf\n\n\n", 1.0*(end - start)/N);
+    printf("Mult_asm test: %.10lf\n\n", (end - start)/N);
 }
 
 void time_test_double()
 {
     float a = 1.23, b = 4.56;
-    printf("\n\n%lf bit tests: \n", sizeof(double) * CHAR_BIT);
+    printf("\n\n%d bit tests: \n", sizeof(double) * CHAR_BIT);
 
-    int start = clock();
+    clock_t start = clock();
     sum_double(a, b);
-    int end = clock();
-    printf("Sum test: %lf\n", 1.0*(end - start)/N);
+    clock_t end = clock();
+    printf("Sum test: %.10lf\n", (end - start)/N);
 
     start = clock();
     mult_double(a, b);
     end = clock();
-    printf("Mult test: %lf\n\n\n", 1.0*(end - start)/N);   
+    printf("Mult test: %.10lf\n\n", (end - start)/N);   
 
 
     start = clock();
     sum_double_asm(a, b);
     end = clock();
-    printf("Sum_asm test: %lf\n", 1.0*(end - start)/N);
+    printf("Sum_asm test: %.10lf\n", (end - start)/N);
 
     start = clock();
     mult_double_asm(a, b);
     end = clock();
-    printf("Mult_asm test: %lf\n\n\n", 1.0*(end - start)/N); 
+    printf("Mult_asm test: %.10lf\n\n", (end - start)/N); 
 }
