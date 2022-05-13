@@ -1,61 +1,60 @@
-#include <stdio.h>
-#include <stdint.h>
+#include <limits.h>
 #include <time.h>
+#include <stdio.h>
+#define N_REPEATS 100000
+#define ND 4
 
-#define OK 0
-#define N 3
-
-void vec_mult_asm(double *res, const double *a, const double *b, int n)
+void count_scalar_product_c(double* a, double* b)
 {
-    for (const double *a_end = a + n - 1; a <= a_end; a += 1, b += 1)
+    double c;
+    for (size_t i = 0; i < N_REPEATS; i++)
     {
-        asm(
-            "vmovsd xmm0, %1\n"
-            "vmovsd xmm1, %2\n"
-            "vmulpd xmm0, xmm0, xmm1\n"
-
-            "vaddpd xmm3, xmm3, xmm0\n"
-            "movupd xmmword ptr [%0], xmm3\n"
-            :
-            : "r"(res), "m"(*a), "m"(*b)
-            : "xmm0", "xmm1");
+        c = 0;
+        for (size_t j = 0; j < ND; j++)
+            c += a[j] * b[j];
     }
+    printf("Result use C: %0.3lf\n", c);
 }
 
-void vec_mult_c(double *res, const double *a, const double *b, int n)
+void count_scalar_product_asm(double *a, double *b)
 {
-    for (int i = 0; i < n; i++)
+    double c;
+    double(*ptr_a)[ND] = a;
+    double(*ptr_b)[ND] = b;
+    for (size_t i = 0; i < N_REPEATS; i++)
     {
-        *res += a[i] * b[i]; 
+        {
+            asm volatile(
+                "vmovupd ymm0, %1\n"
+                "vmovupd ymm1, %2\n"
+                "vmulpd ymm0, ymm0, ymm1\n"             
+                "vhaddpd ymm1, ymm0, ymm0\n"     
+                "vextractf128 xmm0, ymm1, 1\n"
+                "vaddpd ymm0, ymm1, ymm0\n"
+                "movlpd %0, xmm0\n"
+                :
+                : "m"(c), "m"(*ptr_a), "m"(*ptr_b)
+                : "ymm0", "ymm1", "memory");
+        }
     }
+    printf("Result use ASM: %0.3lf\n", c);
 }
 
-int main(int argc, char * argv[])
+int main(void)
 {
-    double a[N] = {1.1, 2.2, 3.3};
-    double b[N] = {4.4, 5.5, 6.6};
+    printf("Counted scalar product for %dd-vectors of double %d times\n", ND, N_REPEATS);
+    double a[ND] = { 0, 1, 2, 3};
+    double b[ND] = { 0, 1, 2, 3};
 
-    double res = 0;
+    clock_t begin = clock();
+    count_scalar_product_c(a, b);
+    clock_t end = clock();
+    printf("Using code in C: %.8lf sec\n", (double)(end - begin) / (CLOCKS_PER_SEC));
 
-    int start = clock();
-    for (int i = 0; i < 10000; i++)
-    {
-        res = 0;
-        vec_mult_c(&res, a, b, N);
-    }
-    int end = clock();
-
-    printf("\nScalar C: %ld\n", end - start);
-
-    start = clock();
-    for (int i = 0; i < 10000; i++)
-    {
-        res = 0;
-        vec_mult_asm(&res, a, b, N);
-    }
+    begin = clock();
+    count_scalar_product_asm(a, b);
     end = clock();
-
-    printf("Scalar ASM: %ld\n\n", end - start);
+    printf("Using code in ASM: %.8lf sec\n", (double)(end - begin) / (CLOCKS_PER_SEC));
 
     return 0;
 }
